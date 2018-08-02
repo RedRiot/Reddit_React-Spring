@@ -13,9 +13,9 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Size(min = 2,message = "It has to be minimum than 2 characters")
+    @Size(min = 2,message = "It has to be minimum 2 characters")
     private String title;
-    @Size(min = 6,message = "It has to minimum than 6 character")
+    @Size(min = 6,message = "It has to minimum 6 character")
     private String url;
     private String timestamp;
     private int score;
