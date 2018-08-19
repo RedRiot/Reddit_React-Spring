@@ -35,7 +35,7 @@ public class PostServiceImplTest {
     private List<Post> generateTestPost(int num){
        List<Post> testPosts = new ArrayList<>();
         for (int i = 0; i <num ; i++) {
-            testPosts.add(new Post("Hello", "google.com", String.valueOf(i)));
+            testPosts.add(new Post("Hello", "google.com"));
         }
         return testPosts;
     }
@@ -54,7 +54,7 @@ public class PostServiceImplTest {
     @Test
     public void submitPostTest() {
 
-        Post post = new Post(title, url, reddit);
+        Post post = new Post(title, url);
         Mockito.verify(postRepository,Mockito.atLeastOnce()).save(Mockito.any(Post.class));
         postServiceImp.postSave(post);
 

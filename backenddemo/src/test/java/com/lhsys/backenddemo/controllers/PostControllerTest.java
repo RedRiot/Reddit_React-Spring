@@ -28,7 +28,7 @@ public class PostControllerTest {
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
     private MockMvc mock;
-    private Post thePost = new Post("dasd", "asdasd", "dasdd");
+    private Post thePost = new Post("dasd", "asdasd");
     private ObjectMapper mapper = new ObjectMapper();
     String json;
     String kaka = "sadasda";

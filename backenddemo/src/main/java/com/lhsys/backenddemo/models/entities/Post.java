@@ -17,33 +17,26 @@ public class Post {
     private String url;
     private String timestamp;
     private int score;
-    private String reddit;
     @ManyToOne
     private User user;
 
-    @OneToMany
-    private List<Comment> commentList;
+  /*  @OneToMany
+    private List<Comment> commentList;*/
 
     public Post() {
         timestamp = String.valueOf(LocalDateTime.now());
         this.score = 0;
     }
 
-    public Post(String title, String url ,String reddit) {
-        this.id = id;
+    public Post(String title, String url) {
         this.title = title;
         this.url = url;
         this.score = score;
         timestamp = String.valueOf(LocalDateTime.now()).replace('T', ' ');
-        this.reddit= reddit;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -76,13 +69,5 @@ public class Post {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public String getReddit() {
-        return reddit;
-    }
-
-    public void setReddit(String reddit) {
-        this.reddit = reddit;
     }
 }

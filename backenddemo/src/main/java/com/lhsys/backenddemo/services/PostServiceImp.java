@@ -2,6 +2,7 @@ package com.lhsys.backenddemo.services;
 
 import com.lhsys.backenddemo.models.entities.Post;
 import com.lhsys.backenddemo.repositories.PostRepository;
+import com.lhsys.backenddemo.services.interfaces.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

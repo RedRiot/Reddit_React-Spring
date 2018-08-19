@@ -2,15 +2,12 @@ package com.lhsys.backenddemo.controller;
 
 import com.lhsys.backenddemo.models.dtos.Posts;
 import com.lhsys.backenddemo.models.entities.Post;
-import com.lhsys.backenddemo.services.PostService;
+import com.lhsys.backenddemo.services.interfaces.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -74,7 +71,6 @@ public class PostController {
         Post updatedPost = postService.getPostById(id);
         updatedPost.setTitle(post.getTitle());
         updatedPost.setUrl(post.getUrl());
-        updatedPost.setReddit(post.getReddit());
         postService.postSave(updatedPost);
         return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
     }
