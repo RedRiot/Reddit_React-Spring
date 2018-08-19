@@ -1,12 +1,10 @@
 package com.lhsys.backenddemo.models.entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -20,6 +18,11 @@ public class Post {
     private String timestamp;
     private int score;
     private String reddit;
+    @ManyToOne
+    private User user;
+
+    @OneToMany
+    private List<Comment> commentList;
 
     public Post() {
         timestamp = String.valueOf(LocalDateTime.now());
