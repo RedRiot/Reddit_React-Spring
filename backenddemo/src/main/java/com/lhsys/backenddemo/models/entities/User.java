@@ -1,8 +1,9 @@
 package com.lhsys.backenddemo.models.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "User")
@@ -14,10 +15,16 @@ public class User {
     private String email;
     private String password;
     @OneToMany
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
-//    @OneToMany
-//    private List<Comment> comments;
+    @OneToMany
+    private List<Comment> comments;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_ROLES", joinColumns = {
+            @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
+            @JoinColumn(name = "ROLE_ID") })
+    //TODO Set -> Long -> ManyToOne
+    private Collection<Role> roles;
 
     public User() {
     }
@@ -58,5 +65,21 @@ public class User {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }

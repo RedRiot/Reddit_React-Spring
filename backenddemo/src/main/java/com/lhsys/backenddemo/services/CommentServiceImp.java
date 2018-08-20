@@ -28,7 +28,7 @@ public class CommentServiceImp implements CommentService {
 
         List<Comment> commentList = null;
         try {
-            commentList = (List<Comment>) commentRepository.findAll();
+            commentList = (List<Comment>) commentRepository.findByParentIsNull();
         } catch (Exception e) {
             System.err.println(e);
         }

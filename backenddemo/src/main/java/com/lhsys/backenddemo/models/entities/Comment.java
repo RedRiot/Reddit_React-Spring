@@ -1,10 +1,10 @@
 package com.lhsys.backenddemo.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,14 +17,15 @@ public class Comment {
     @ManyToOne
     private Comment parent;
     private String body;
+    private String time;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER,mappedBy = "parent")
     private Set<Comment> comments = new HashSet<>();
 
-  /*  @ManyToOne
+    @ManyToOne
     private Post post;
     @ManyToOne
-    private User user;*/
+    private User user;
 
     public Comment() {
     }
@@ -32,6 +33,7 @@ public class Comment {
     public Comment( String body) {
         this.parent = null;
         this.body = body;
+        this.time =  String.valueOf(LocalDateTime.now());
     }
 
     public Comment(Comment parent, String body) {
@@ -42,6 +44,7 @@ public class Comment {
         }
         this.parent = parent;
         this.body = body;
+        this.time = String.valueOf(LocalDateTime.now());
         registerInParentsChilds();
     }
 
@@ -83,5 +86,13 @@ public class Comment {
 
     public Comment addChild(String body) {
         return new Comment(body);
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
