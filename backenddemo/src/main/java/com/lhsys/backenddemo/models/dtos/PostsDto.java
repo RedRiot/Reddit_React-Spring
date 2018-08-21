@@ -4,7 +4,7 @@ import com.lhsys.backenddemo.models.entities.Post;
 
 import java.util.List;
 
-public class Posts {
+public class PostsDto {
     private List<Post> posts;
 
     public List<Post> getPosts() {

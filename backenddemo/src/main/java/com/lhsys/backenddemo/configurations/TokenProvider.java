@@ -1,4 +1,4 @@
-package com.lhsys.backenddemo.models.configurations;
+package com.lhsys.backenddemo.configurations;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

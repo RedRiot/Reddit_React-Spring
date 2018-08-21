@@ -1,4 +1,4 @@
-package com.lhsys.backenddemo.models.configurations;
+package com.lhsys.backenddemo.configurations;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

@@ -1,8 +1,13 @@
 package com.lhsys.backenddemo.controller;
 
-import com.lhsys.backenddemo.models.dtos.Posts;
+import com.lhsys.backenddemo.models.dtos.PostsDto;
 import com.lhsys.backenddemo.models.entities.Post;
+import com.lhsys.backenddemo.models.entities.User;
+import com.lhsys.backenddemo.models.entities.Vote;
+import com.lhsys.backenddemo.repositories.UserRepository;
 import com.lhsys.backenddemo.services.interfaces.PostService;
+import com.lhsys.backenddemo.services.interfaces.VoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +18,21 @@ import javax.validation.Valid;
 @RestController
 public class PostController {
     private final PostService postService;
+    private final UserRepository userRepository;
+    private final VoteService voteService;
 
-    public PostController(PostService postService) {
+    @Autowired
+    public PostController(PostService postService, UserRepository userRepository, VoteService voteService) {
         this.postService = postService;
+        this.userRepository = userRepository;
+        this.voteService = voteService;
     }
 
     @GetMapping(value = "/posts")
     public ResponseEntity<?> getAllPosts(){
-        Posts posts= new Posts();
-        posts.setPosts(postService.getAllPost());
-       return ResponseEntity.status(HttpStatus.OK).body(posts);
+        PostsDto postsDto = new PostsDto();
+        postsDto.setPosts(postService.getAllPost());
+       return ResponseEntity.status(HttpStatus.OK).body(postsDto);
     }
 
     @GetMapping(value = "/posts/{id}")
@@ -38,6 +48,7 @@ public class PostController {
 
     @PostMapping(value = "/post")
     public ResponseEntity postAPost(@Valid @RequestBody Post post) {
+
         Post newPost = postService.postSave(post);
         if (newPost == null) {
             return ResponseEntity.noContent().build();
@@ -48,17 +59,23 @@ public class PostController {
 
     @PutMapping(value = "/posts/{id}/upvote")
     public ResponseEntity upVotePost(@PathVariable("id") long id){
-       Post post = postService.getPostById(id);
-        if (post == null) {
-            return ResponseEntity.noContent().build();
-        }
-       return ResponseEntity.status(HttpStatus.OK).body(postService.postSave(postService.postUpvote(post)));
+        Post post = postService.getPostById(id);
+        User user = userRepository.findUserByPosts(post);
+        Vote vote = voteService.findVoteByUserAndPost(post, user);
+        voteService.downVote(vote,user,post);
+        post.setScore(voteService.findByPost(post).stream().mapToInt(Vote::getScore).sum());
+       return ResponseEntity.status(HttpStatus.OK).body(postService.postSave(post));
     }
 
     @PutMapping(value = "/posts/{id}/downvote")
     public ResponseEntity downVotePost(@PathVariable("id") long id) {
         Post post = postService.getPostById(id);
-        return ResponseEntity.status(HttpStatus.OK).body( postService.postSave(postService.postDownvote(post)));
+        User user = userRepository.findUserByPosts(post);
+        Vote vote = voteService.findVoteByUserAndPost(post, user);
+        voteService.downVote(vote,user,post);
+        post.setScore(voteService.findByPost(post).stream().mapToInt(Vote::getScore).sum());
+
+        return ResponseEntity.status(HttpStatus.OK).body( postService.postSave(post));
     }
     @DeleteMapping(value = "posts/{id}")
     public ResponseEntity deletePost(@PathVariable("id") long id) {

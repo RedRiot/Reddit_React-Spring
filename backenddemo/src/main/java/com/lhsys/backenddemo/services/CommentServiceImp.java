@@ -48,4 +48,10 @@ public class CommentServiceImp implements CommentService {
         }
         return parent;
     }
+
+    @Override
+    public Comment getCommentbyId(Long id) {
+        return commentRepository.findById(id).get();
+    }
+
 }

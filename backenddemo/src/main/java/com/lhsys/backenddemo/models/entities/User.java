@@ -1,18 +1,21 @@
 package com.lhsys.backenddemo.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "User")
+@Table(name = "Ruser")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     private String email;
+    @JsonIgnore
     private String password;
     @OneToMany
     private List<Post> posts = new ArrayList<>();
@@ -23,8 +26,10 @@ public class User {
     @JoinTable(name = "USER_ROLES", joinColumns = {
             @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
             @JoinColumn(name = "ROLE_ID") })
-    //TODO Set -> Long -> ManyToOne
     private Collection<Role> roles;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    List<Vote> votes;
 
     public User() {
     }
@@ -81,5 +86,13 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 }

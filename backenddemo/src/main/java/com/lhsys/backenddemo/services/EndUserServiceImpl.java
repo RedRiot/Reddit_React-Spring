@@ -5,6 +5,7 @@ import com.lhsys.backenddemo.models.entities.User;
 import com.lhsys.backenddemo.models.entities.Role;
 import com.lhsys.backenddemo.repositories.RoleRepository;
 import com.lhsys.backenddemo.repositories.UserRepository;
+import com.lhsys.backenddemo.services.interfaces.EndUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,7 @@ public class EndUserServiceImpl implements UserDetailsService, EndUserService {
     private RoleRepository roleRepository;
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User endUser = userRepository.findByUsername(username);
+        User endUser = userRepository.findByName(username);
         if (endUser == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
@@ -59,7 +60,7 @@ public class EndUserServiceImpl implements UserDetailsService, EndUserService {
 
     @Override
     public User findOne(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByName(username);
     }
 
     @Override
@@ -74,7 +75,8 @@ public class EndUserServiceImpl implements UserDetailsService, EndUserService {
         newEndUser.setEmail(user.getEmail());
         newEndUser.setName(user.getUsername());
         newEndUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        Role role = roleRepository.findByName(user.getRole());
+        //Role role = roleRepository.findByName(user.getRole());
+        Role role = new Role("Admin","Admin");
         newEndUser.setRoles(Arrays.asList(role));
 
         return userRepository.save(newEndUser);

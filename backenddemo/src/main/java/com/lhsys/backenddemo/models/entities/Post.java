@@ -23,6 +23,9 @@ public class Post {
     @OneToMany
     private List<Comment> commentList;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    List<Vote> votes;
+
     public Post() {
         timestamp = String.valueOf(LocalDateTime.now());
         this.score = 0;
@@ -31,8 +34,8 @@ public class Post {
     public Post(String title, String url) {
         this.title = title;
         this.url = url;
-        this.score = score;
-        timestamp = String.valueOf(LocalDateTime.now()).replace('T', ' ');
+        this.score = 0;
+        timestamp = String.valueOf(LocalDateTime.now());
     }
 
     public Long getId() {
@@ -69,5 +72,29 @@ public class Post {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 }

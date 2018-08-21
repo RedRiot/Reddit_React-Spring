@@ -10,4 +10,6 @@ public interface CommentService {
     Comment saveComment(Comment comment);
     List<Comment> allComment();
     Comment saveReply(Long id, Comment comment);
+
+    Comment getCommentbyId(Long id);
 }

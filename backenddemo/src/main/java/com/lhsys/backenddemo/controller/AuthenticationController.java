@@ -1,7 +1,6 @@
 package com.lhsys.backenddemo.controller;
 
-
-import com.lhsys.backenddemo.models.configurations.TokenProvider;
+import com.lhsys.backenddemo.configurations.TokenProvider;
 import com.lhsys.backenddemo.models.entities.AuthToken;
 import com.lhsys.backenddemo.models.entities.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;

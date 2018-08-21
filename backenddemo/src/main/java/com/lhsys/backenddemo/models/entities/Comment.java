@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,8 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private int score;
+
     @JsonBackReference
     @ManyToOne
     private Comment parent;
@@ -27,6 +30,9 @@ public class Comment {
     @ManyToOne
     private User user;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    List<Vote> votes;
+
     public Comment() {
     }
 
@@ -34,6 +40,7 @@ public class Comment {
         this.parent = null;
         this.body = body;
         this.time =  String.valueOf(LocalDateTime.now());
+        this.score = 0;
     }
 
     public Comment(Comment parent, String body) {
@@ -45,6 +52,7 @@ public class Comment {
         this.parent = parent;
         this.body = body;
         this.time = String.valueOf(LocalDateTime.now());
+        this.score = score;
         registerInParentsChilds();
     }
 
@@ -94,5 +102,21 @@ public class Comment {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

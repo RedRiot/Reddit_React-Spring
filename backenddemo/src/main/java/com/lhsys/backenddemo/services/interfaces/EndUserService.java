@@ -1,4 +1,4 @@
-package com.lhsys.backenddemo.services;
+package com.lhsys.backenddemo.services.interfaces;
 
 import com.lhsys.backenddemo.models.dtos.EndUserDto;
 import com.lhsys.backenddemo.models.entities.User;
